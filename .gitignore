@@ -1,0 +1,16 @@
+*.bak
+*.pyc
+*.pyo
+*~
+.ropeproject
+.idea
+TAGS
+.DS_Store
+.project
+.coverage*
+coverage_html_report
+/dist
+*local_path*
+/abl/web/mycms.db
+.sass-cache
+/AbletonDotCom.egg-info
