@@ -13,7 +13,6 @@ setup(
     url='http://ableton.com/',
     zip_safe=False,
     install_requires=[],
-    namespace_packages=["abl"],
     packages=find_packages(),
     include_package_data=True,
     entry_points={
