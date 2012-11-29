@@ -105,7 +105,7 @@ Didn't find any tags named %s in node %s.""" % (tag_name, node))
             extra_url.append(command)
 
         if url_params:
-            extra_params = urllib.urlencode(url_params.items())
+            extra_params = urllib.urlencode(url_params).replace('+', '%20') # Pivotal doesn't like +
 
         url = '%s/%s%s' % (base_url,
                            '/'.join(extra_url) or '',
@@ -132,7 +132,6 @@ Didn't find any tags named %s in node %s.""" % (tag_name, node))
         :returns: interesting data about stories
         :rtype: a dictionary
         """
-        project = project_id
         command = 'stories/%s' % story_id
         data = self._send_request(
             project_id=project_id,
@@ -146,6 +145,26 @@ Didn't find any tags named %s in node %s.""" % (tag_name, node))
             return self._extract_story_data(s[0])
 
 
+    def get_stories(self, project_id, **filters):
+        """
+        Get stories by arbitrary filters.
+
+        :returns: interesting data about stories
+        :rtype: a list of dictionaries
+        """
+        command = 'stories'
+        url_params = {}
+        if filters:
+            url_params['filter'] = ' '.join('{}:{}'.format(key, value) for key, value in filters.iteritems())
+        data = self._send_request(
+            project_id=project_id,
+            command=command,
+            url_params=url_params,
+            )
+
+        return [self._extract_story_data(s) for s in data.getElementsByTagName('story')]
+
+
     def get_stories_by_id(self, ids, project_id):
         """
         Get stories by ID.
@@ -156,16 +175,7 @@ Didn't find any tags named %s in node %s.""" % (tag_name, node))
         :returns: interesting data about stories
         :rtype: a list of dictionaries
         """
-        project = project_id
-        command = 'stories'
-        url_params = {'filter': 'id:%s' % ','.join(ids)}
-        data = self._send_request(
-            project_id=project_id,
-            command=command,
-            url_params=url_params,
-            )
-
-        return [self._extract_story_data(s) for s in data.getElementsByTagName('story')]
+        return self.get_stories(id=','.join(ids))
 
 
     def get_current_iteration(self, project_id):
@@ -173,7 +183,6 @@ Didn't find any tags named %s in node %s.""" % (tag_name, node))
         Return story data for all unfinished stories in the current
         iteration.
         """
-        project = project_id
         command = 'iterations/current'
         data = self._send_request(
             project_id=project_id,

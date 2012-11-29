@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='abl.pivotal_client',
-    version='1.0',
+    version='1.0.1',
     description='A simple client for Pivotal Tracker',
     author='Ableton Web Team',
     author_email='webteam@ableton.com',
