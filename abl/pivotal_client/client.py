@@ -190,7 +190,7 @@ Didn't find any tags named %s in node %s.""" % (tag_name, node))
             )
 
         story_data = [self._extract_story_data(s) for s in data.getElementsByTagName('story')]
-        return [s for s in story_data if s['story_type'].lower() in ('feature', 'bug', 'chore')]
+        return [s for s in story_data if s['story_type'].lower() in ('feature', 'bug', 'chore', 'release')]
 
 
     def get_projects(self):
