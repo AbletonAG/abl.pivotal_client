@@ -1,7 +1,3 @@
-import os
-import sys
-import platform
-
 from setuptools import setup, find_packages
 
 setup(
@@ -15,6 +11,7 @@ setup(
     install_requires=[],
     packages=find_packages(),
     include_package_data=True,
+    license='MIT',
     entry_points={
         "console_scripts": [],
         },
